@@ -51,6 +51,21 @@ public class ProduitController extends HttpServlet {
             throw new ServletException(ex);
         }
     }
+    private void insertProduit(HttpServletRequest request, HttpServletResponse response)
+    	    throws SQLException, IOException {
+    	
+    	
+    	        String nom = request.getParameter("nom");
+    	        String description = request.getParameter("description");
+    	        int quantite = Integer.parseInt(request.getParameter("quantite_en_stock"));
+    	        int prix = Integer.parseInt(request.getParameter("prix"));
+    	        String categorie = request.getParameter("categorie");
+    	        ProduitModel prmodel = new ProduitModel(nom, description, quantite, prix, categorie);
+    	        prDAO.insertProduit(prmodel);
+    	        response.sendRedirect("./");
+    	       
+
+    	    }
    
 
 
