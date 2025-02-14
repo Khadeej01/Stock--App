@@ -66,7 +66,14 @@ public class ProduitController extends HttpServlet {
     	       
 
     	    }
-   
+    private void listProduit(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+                List < ProduitModel > listProduit =prDAO.selectAllProduits();
+                request.setAttribute("listProduit", listProduit);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("gestion.jsp");
+                dispatcher.forward(request, response);
+
+            }
 
 
 
