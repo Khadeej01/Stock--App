@@ -15,7 +15,7 @@
 <body class="bg-gray-100 font-sans">
 
     <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold text-center mb-6">Liste des produits</h1>
+       
 
        
         <form id="ajouterProduitForm" action="insert" method="post" class="bg-white p-6 rounded-lg shadow-lg">
@@ -43,6 +43,7 @@
                     <th class="px-4 py-2">Categorie</th>
                 </tr>
             </thead>
+             <h1 class="text-3xl font-bold text-center mb-6">Liste des produits</h1>
             <tbody>
                <c:forEach var="produit" items="${listProduit}">
                     <tr class="px-4 py-2 mx-4"  >
@@ -53,7 +54,7 @@
                         <td class="px-4 py-2"><c:out value="${produit.prix}" /></td>
                         <td class="px-4 py-2"><c:out value="${produit.categorie}" /></td>
                         </tr>
-                        </c:forEach>
+                        </c:forEach>    
             </tbody>
         </table>
     </div>
