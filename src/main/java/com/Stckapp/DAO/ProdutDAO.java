@@ -38,5 +38,61 @@ public class ProdutDAO {
         }
         return connection;
     }
+    public void insertProduit(ProduitModel produit) throws SQLException {
+        System.out.println(INSERT_PRODUITS_SQL);
+        // try-with-resource statement will auto close the connection.
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PRODUITS_SQL)) {
+            preparedStatement.setString(1, produit.getNom());
+            preparedStatement.setString(2, produit.getDescription());
+            preparedStatement.setInt(3, produit.getQuantite());
+            preparedStatement.setInt(4, produit.getPrix());
+            preparedStatement.setString(5, produit.getCategorie());
+
+            System.out.println(preparedStatement);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+    public List<ProduitModel> selectAllProduits() {
+    	
+        List<ProduitModel> produits = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PRODUITS);
+             ResultSet rs = preparedStatement.executeQuery()) {
+            while (rs.next()) {
+
+                        int id = rs.getInt("id");
+                       String nom =  rs.getString("nom");
+                        String description = rs.getString("description");
+                        int quantite = rs.getInt("quantite_en_stock");
+                        int prix  = rs.getInt("prix_unitaire");
+                        String categorie = rs.getString("categorie");
+                        produits.add(new ProduitModel(id,nom, description, quantite, prix, categorie));
+                        System.out.println("testmodel");
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println( produits);
+
+        return produits;
+    }
     
+    private void printSQLException(SQLException ex) {
+        for (Throwable e: ex) {
+            if (e instanceof SQLException) {
+                e.printStackTrace(System.err);
+                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
+                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
+                System.err.println("Message: " + e.getMessage());
+                Throwable t = ex.getCause();
+                while (t != null) {
+                    System.out.println("Cause: " + t);
+                    t = t.getCause();
+                }
+            }
+        }
+        }
 }
